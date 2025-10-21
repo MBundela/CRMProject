@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon CRM Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/82a283d995.js" crossorigin="anonymous"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="navigation" id="sidebar">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><i class="fab fa-apple"></i></span>
+                        <span class="title">Brand Name</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <span class="icon"><i class="fas fa-home"></i></span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+               <li>
+                <a href="Form.php">
+                    <span class="icon"><i class="fas fa-user-tie"></i></span>
+                    <span class="title">Customer</span>
+                </a>
+                </li>
+                <li>
+                <a href="attendance.php">
+                    <span class="icon"><i class="fas fa-briefcase"></i></span>
+                    <span class="title">Daily Attendance</span>
+                </a>
+                </li>
+                <li>
+                    <a href="daily_visits.php">
+                        <span class="icon"><i class="fas fa-handshake"></i></span>
+                        <span class="title">Daily Visits</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.php">
+                        <span class="icon"><i class="fas fa-table"></i></span>
+                        <span class="title">Recent Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="followups.php">
+                        <span class="icon"><i class="fas fa-envelope"></i></span>
+                        <span class="title">Followups</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Setting.php">
+                        <span class="icon"><i class="fas fa-cog"></i></span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logout.php">
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Notification container -->
+        <div id="notificationContainer"></div>
+
+        <!-- Main content -->
+        <div class="main" id="dashboard">
+        <!-- <iframe name="mainFrame" src="customers_list.php" style="width:100%; height:100vh; border:none;"></iframe> -->
+
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="toggle" onclick="toggleMenu();"><i class="fas fa-bars"></i></div>
+                <div class="search">
+                    <input type="text" placeholder="Search here...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user">
+                    <img src="Images/My_Image.jpg" alt="Profile">
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="cardbox">
+                <div class="card neon">
+                    <div>
+                        <div class="number" id="dailyViews">1,042</div>
+                        <div class="cardName">Total Customers</div>
+                    </div>
+                    <div class="iconBox"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="card neon">
+                    <div>
+                        <div class="number" id="sales" data-value="<?= $totalSales ?>">₹0.00</div>
+                        <div class="cardName">Total Sales</div>
+                    </div>
+                    <div class="iconBox"><i class="fas fa-shopping-cart"></i></div>
+                </div>
+                <div class="card neon">
+                    <div>
+                        <div class="number" id="comments">0</div>
+                        <div class="cardName">Pending Followups</div>
+                    </div>
+                    <div class="iconBox"><i class="fas fa-comment"></i></div>
+                </div>
+                <div class="card neon">
+                    <div>
+                        <div class="number" id="dailyVisits">0</div>
+                        <div class="cardName">Daily Visits</div>
+                    </div>
+                    <div class="iconBox"><i class="fas fa-dollar-sign"></i></div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts">
+                <div class="chartContainer neon">
+                    <h3>Sales Overview</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+                <div class="chartContainer neon">
+                    <h3>Customer Growth</h3>
+                    <canvas id="customerChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Live Activity Feed -->
+            <div class="activityFeed neon">
+                <h3>Live Activity Feed</h3>
+                <ul id="activityList">
+                    <!-- Live activities will append here -->
+                </ul>
+            </div>
+            <!-- Recent Orders Table -->
+                <div class="details neon" id="orders">
+                <h2>Recent Orders</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Total Value (₹)</th>
+                        <th>Quantity</th>
+                        <th>GST (18%)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="recentOrdersTable">
+                    <tr><td colspan="4" style="text-align:center;">Loading recent orders...</td></tr>
+                    </tbody>
+                </table>
+                </div>
+            <!-- Recent Customers -->
+            <div class="recentCustomers neon" id="customers">
+                <h2>Recent Customers</h2>
+                <div class="customersGrid">
+                    <div class="customerCard">
+                        <img src="Images/Team2.jpg" alt="">
+                        <h4>David<br><span>Italy</span></h4>
+                    </div>
+                    <div class="customerCard">
+                        <img src="Images/Team1.jpg" alt="">
+                        <h4>Elena<br><span>USA</span></h4>
+                    </div>
+                    <div class="customerCard">
+                        <img src="Images/Team3.jpg" alt="">
+                        <h4>Amelia<br><span>France</span></h4>
+                    </div>
+                    <div class="customerCard">
+                        <img src="Images/Team4.jpg" alt="">
+                        <h4>Olivia<br><span>Germany</span></h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- JS -->
+    <script src="script.js"></script>
+</body>
+</html>
